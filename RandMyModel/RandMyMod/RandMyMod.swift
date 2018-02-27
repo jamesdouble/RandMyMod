@@ -10,9 +10,10 @@ import Foundation
 import Fakery
 
 public protocol RandMyModDelegate {
+    func countForArray(for key: String) -> Int
     func shouldIgnore(for key: String, in Container: String) -> Bool
     func catchError(with errorStr: String)
-    func specificRandType(for key: String, in Container: String, with: Generator) -> Any?
+    func specificRandType(for key: String, in Container: String, with seed: RandType) -> (()->Any)?
 }
 
 public extension RandMyModDelegate {
@@ -24,19 +25,19 @@ public extension RandMyModDelegate {
         
     }
     
-    func specificRandType(for Key: String, in Container: String, with RandGenerator: Generator) -> Any? {
-        return nil
+    func countForArray(for key: String) -> Int {
+        return -1
     }
 }
-
+public typealias RandType = Faker
 public class RandMyMod<T: Codable> {
     
-    public init() {
+    public init(forceUnWrapOptional force: Bool = false) {
         
     }
     
     //Random Array
-    func randUs(amount: Int, baseOn instance: T, completion: ([T])->()) -> [T] {
+    public func randUs(amount: Int, baseOn instance: T, completion: ([T])->()) -> [T] {
         var result: [T] = []
         for _ in 0..<amount {
             randMe(baseOn: instance, completion: { (object) in
@@ -51,8 +52,8 @@ public class RandMyMod<T: Codable> {
     //Random Single
     public func randMe(baseOn instance: T, completion: (T?)-> ()) {
         /// Convert Variable To flat Dictionary
+        let delegate = instance as? RandMyModDelegate
         do {
-            let delegate = instance as? RandMyModDelegate
             let jsonData = try JSONEncoder().encode(instance)
             let jsonDic = try JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers)
             guard let jsonDictionary = jsonDic as? [String: Any] else { completion(nil); return }
@@ -60,7 +61,7 @@ public class RandMyMod<T: Codable> {
             completion(newinstance)
             return
         } catch {
-            print(error)
+            delegate?.catchError(with: error.localizedDescription)
         }
     }
 }

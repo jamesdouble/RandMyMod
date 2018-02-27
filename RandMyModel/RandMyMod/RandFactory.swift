@@ -8,7 +8,7 @@
 
 import UIKit
 
-// to new json & use Encoding to instance
+// to json & use Encoding to instance
 class RandExtractor<T: Codable> {
     
     var delegate: RandMyModDelegate?
@@ -18,11 +18,16 @@ class RandExtractor<T: Codable> {
     }
     
     func extractFromDictionary(_ dictionary: [String: Any]) -> T? {
-        guard let newDicionary = RandFactory(dictionary, "Root", delegate: delegate).randData() as? [String: Any] else { return nil }
-        let jsonData = try! JSONSerialization.data(withJSONObject: newDicionary, options: .prettyPrinted)
-        let decoder = JSONDecoder()
-        let newinstance = try! decoder.decode(T.self, from: jsonData)
-        return newinstance
+        guard let newDicionary = RandFactory(dictionary, "Root", specificBlock: nil, delegate: delegate).randData() as? [String: Any] else { return nil }
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: newDicionary, options: .prettyPrinted)
+            let decoder = JSONDecoder()
+            let newinstance = try decoder.decode(T.self, from: jsonData)
+            return newinstance
+        } catch {
+            delegate?.catchError(with: error.localizedDescription)
+            return nil
+        }
     }
 }
 
@@ -32,46 +37,51 @@ class RandFactory {
     let originKey: String
     let originValue:Any
     var delegate: RandMyModDelegate?
+    let randCore: RandCore
     
-    init(_ base:Any ,_ key: String, delegate: RandMyModDelegate?) {
+    init(_ base:Any ,_ key: String ,specificBlock: (()->Any)? ,delegate: RandMyModDelegate?) {
         self.originKey = key
-        originValue = base
+        self.originValue = base
         self.delegate = delegate
+        let count = delegate?.countForArray(for: key) ?? -1
+        self.randCore = RandCore(count, specificBlock: specificBlock)
     }
     
     public func randData() -> Any {
         switch originValue {
         case is String:
-            return RandCore(.string).randValue()
+            return randCore.randValue(type: .string)
         case is [String]:
-            return RandCore(.string).randArray()
+            return randCore.randArray(type: .string)
         case is Int:
-            return RandCore(.int).randValue()
+            return randCore.randValue(type: .int)
         case is [Int]:
-            print("Int Arr")
-            return RandCore(.int).randArray()
+            return randCore.randArray(type: .int)
         case is Double:
-            return RandCore(.double).randValue()
+            return randCore.randValue(type: .double)
         case is [Double]:
-            return RandCore(.double).randArray()
+            return randCore.randArray(type: .double)
         case is Float:
-            return RandCore(.float).randValue()
+            return randCore.randValue(type: .float)
         case is [Float]:
-            return RandCore(.float).randArray()
+            return randCore.randArray(type: .float)
         case is CGFloat:
-            return RandCore(.cgfloat).randValue()
+            return randCore.randValue(type: .cgfloat)
         case is [CGFloat]:
-            return RandCore(.cgfloat).randArray()
-        case is [String: Any]:  //Maybe is the variable I don't know
+            return randCore.randArray(type: .cgfloat)
+        case is [String: Any]:
             var dictionary = originValue as! [String: Any]
-            for (_, value) in dictionary.enumerated() {
+            var specificBlock: (()->Any)?
+            for (_, variable) in dictionary.enumerated() {
                 if let delegate = delegate {
-                    if delegate.shouldIgnore(for: value.key, in: originKey) {
+                    if delegate.shouldIgnore(for: variable.key, in: originKey) {
                         continue
                     }
+                    //Specific Type
+                    specificBlock = delegate.specificRandType(for: variable.key, in: self.originKey, with: randCore.faker)
                 }
-                let factory = RandFactory(value.value, value.key, delegate: delegate).randData()
-                dictionary.updateValue(factory, forKey: value.key)
+                let factory = RandFactory(variable.value, variable.key, specificBlock: specificBlock, delegate: delegate).randData()
+                dictionary.updateValue(factory, forKey: variable.key)
             }
             return dictionary
         default:
@@ -82,15 +92,15 @@ class RandFactory {
             ///if variable is nullable, can use this to check
             if judgementString.contains("Optional") {
                 if judgementString.contains("String") {
-                    return judgementString.contains("Array") ? RandCore(.string).randArray() : RandCore(.string).randValue()
+                    return judgementString.contains("Array") ? randCore.randArray(type: .string) : randCore.randValue(type: .string)
                 } else if judgementString.contains("Int") {
-                    return judgementString.contains("Array") ? RandCore(.int).randArray() : RandCore(.int).randValue()
+                    return judgementString.contains("Array") ? randCore.randArray(type: .int) : randCore.randValue(type: .int)
                 } else if judgementString.contains("Double") {
-                    return judgementString.contains("Array") ? RandCore(.double).randArray() : RandCore(.double).randValue()
+                    return judgementString.contains("Array") ? randCore.randArray(type: .double) : randCore.randValue(type: .double)
                 } else if judgementString.contains("Float") {
-                    return judgementString.contains("Array") ? RandCore(.float).randArray() : RandCore(.float).randValue()
+                    return judgementString.contains("Array") ? randCore.randArray(type: .float) : randCore.randValue(type: .float)
                 } else if judgementString.contains("CGFloat") {
-                    return judgementString.contains("Array") ? RandCore(.cgfloat).randArray() : RandCore(.cgfloat).randValue()
+                    return judgementString.contains("Array") ? randCore.randArray(type: .cgfloat) : randCore.randValue(type: .cgfloat)
                 }
             }
         }
