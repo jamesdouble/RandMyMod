@@ -51,7 +51,7 @@ pod 'RandMyMod'
     	func shouldIgnore(for key: String, in Container: String) -> Bool
     	func catchError(with errorStr: String)
     	func specificRandType(for key: String, in Container: String, with seed: RandType) -> (()->Any)?
-}
+	}
 	```
 
 * **Swift fake data generator**
@@ -205,7 +205,7 @@ RandMyMod<Man>().randMe(baseOn: man) { (newMan) in
 
 ```
 
-#Distribution
+# Distribution
 
 Feel free to fork / pull request / open an issue.
 	
