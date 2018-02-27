@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2D4FA177C9C540D645B647BE /* Pods_RandMyModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84E316542895AA8D1A31540D /* Pods_RandMyModel.framework */; };
-		4F22219520313E5200BEDC15 /* RandMyMod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F22219120313E5200BEDC15 /* RandMyMod.swift */; };
-		4F22219620313E5200BEDC15 /* RandFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F22219220313E5200BEDC15 /* RandFactory.swift */; };
-		4F22219720313E5200BEDC15 /* RandCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F22219320313E5200BEDC15 /* RandCore.swift */; };
+		4F91532B204419E700EE24BE /* RandCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F915328204419E600EE24BE /* RandCore.swift */; };
+		4F91532C204419E700EE24BE /* RandFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F915329204419E700EE24BE /* RandFactory.swift */; };
+		4F91532D204419E700EE24BE /* RandMyMod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91532A204419E700EE24BE /* RandMyMod.swift */; };
 		4FB88590200F4674008EC36E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB8858F200F4674008EC36E /* AppDelegate.swift */; };
 		4FB88592200F4674008EC36E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB88591200F4674008EC36E /* ViewController.swift */; };
 		4FB88595200F4674008EC36E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4FB88593200F4674008EC36E /* Main.storyboard */; };
@@ -19,9 +19,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4F22219120313E5200BEDC15 /* RandMyMod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandMyMod.swift; sourceTree = "<group>"; };
-		4F22219220313E5200BEDC15 /* RandFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandFactory.swift; sourceTree = "<group>"; };
-		4F22219320313E5200BEDC15 /* RandCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandCore.swift; sourceTree = "<group>"; };
+		4F915328204419E600EE24BE /* RandCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandCore.swift; sourceTree = "<group>"; };
+		4F915329204419E700EE24BE /* RandFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandFactory.swift; sourceTree = "<group>"; };
+		4F91532A204419E700EE24BE /* RandMyMod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandMyMod.swift; sourceTree = "<group>"; };
 		4FB8858C200F4674008EC36E /* RandMyModel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RandMyModel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FB8858F200F4674008EC36E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4FB88591200F4674008EC36E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,9 +49,9 @@
 		4F22219020313E5200BEDC15 /* RandMyMod */ = {
 			isa = PBXGroup;
 			children = (
-				4F22219120313E5200BEDC15 /* RandMyMod.swift */,
-				4F22219220313E5200BEDC15 /* RandFactory.swift */,
-				4F22219320313E5200BEDC15 /* RandCore.swift */,
+				4F915328204419E600EE24BE /* RandCore.swift */,
+				4F915329204419E700EE24BE /* RandFactory.swift */,
+				4F91532A204419E700EE24BE /* RandMyMod.swift */,
 			);
 			path = RandMyMod;
 			sourceTree = "<group>";
@@ -234,11 +234,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F22219520313E5200BEDC15 /* RandMyMod.swift in Sources */,
-				4F22219620313E5200BEDC15 /* RandFactory.swift in Sources */,
 				4FB88592200F4674008EC36E /* ViewController.swift in Sources */,
+				4F91532D204419E700EE24BE /* RandMyMod.swift in Sources */,
+				4F91532C204419E700EE24BE /* RandFactory.swift in Sources */,
+				4F91532B204419E700EE24BE /* RandCore.swift in Sources */,
 				4FB88590200F4674008EC36E /* AppDelegate.swift in Sources */,
-				4F22219720313E5200BEDC15 /* RandCore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +379,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 857SMZQ3R8;
 				INFOPLIST_FILE = RandMyModel/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jameskuo12345.RandMyModel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -395,6 +396,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 857SMZQ3R8;
 				INFOPLIST_FILE = RandMyModel/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.jameskuo12345.RandMyModel;
 				PRODUCT_NAME = "$(TARGET_NAME)";

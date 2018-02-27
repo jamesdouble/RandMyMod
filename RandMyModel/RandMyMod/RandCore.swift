@@ -19,13 +19,19 @@ class RandCore {
         case double
     }
     let faker: Faker = Faker()
-    let type: RandableType
+    let arrCount: Int
+    var specificBlock: (()->Any)?
     
-    init(_ type: RandableType) {
-        self.type = type
+    init(_ arrCount: Int, specificBlock: (()->Any)?) {
+        self.arrCount = arrCount > 0 ? arrCount : faker.number.randomInt(min: 1, max: 10)
+        self.specificBlock = specificBlock
     }
     
-    func randValue() -> Any {
+    func randValue(type: RandableType) -> Any {
+        if let speciBlock = self.specificBlock {
+            let specificValue = speciBlock()
+            return specificValue
+        }
         switch type {
         case .string:
             return faker.lorem.characters(amount: 10)
@@ -40,8 +46,12 @@ class RandCore {
         }
     }
     
-    func randArray() -> [Any] {
-        return [randValue(),randValue()]
+    func randArray(type: RandableType) -> [Any] {
+        var result: [Any] = []
+        for _ in 0..<arrCount {
+            result.append(randValue(type: type))
+        }
+        return result
     }
     
 }
