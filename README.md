@@ -21,6 +21,10 @@ pod 'RandMyMod'
 
 * ### Model must conform *Codable*
 
+```swift
+import RandMyMod
+```
+
 * **Create a Random Model**
 
 	```swift
